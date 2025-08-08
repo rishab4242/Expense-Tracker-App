@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { baseURL } from "../utils/constant";
 import { useNavigate, Link } from "react-router-dom"; // Added Link import
+import { AiOutlineCheckCircle } from "react-icons/ai";
 
 // Enhanced Success Modal Component
 const SuccessModal = ({ onClose }) => {
@@ -16,13 +17,7 @@ const SuccessModal = ({ onClose }) => {
   return (
     <>
       {/* CSS Animations */}
-      <style jsx>{`
-        @keyframes checkmark {
-          to {
-            stroke-dashoffset: 0;
-          }
-        }
-
+      <style>{`
         @keyframes fadeInScale {
           0% {
             opacity: 0;
@@ -34,12 +29,12 @@ const SuccessModal = ({ onClose }) => {
           }
         }
 
-        .success-content {
-          animation: fadeInScale 0.6s ease-out 0.8s both;
-        }
-
         .check-icon {
           animation: fadeInScale 0.8s ease-out 0.2s both;
+        }
+
+        .animate-check {
+          animation: fadeInScale 0.8s ease-out 0.5s both;
         }
       `}</style>
 
@@ -59,25 +54,9 @@ const SuccessModal = ({ onClose }) => {
           {/* Blue-Purple Gradient Header Section */}
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 md:px-8 px-20 py-12 text-white">
             <div className="relative mb-4">
+              {/* Inside the check-icon container */}
               <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto border-3 border-white check-icon">
-                <svg
-                  className="w-8 h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 13l4 4L19 7"
-                    style={{
-                      strokeDasharray: "20",
-                      strokeDashoffset: "20",
-                      animation: "checkmark 0.8s ease-in-out 0.5s forwards",
-                    }}
-                  />
-                </svg>
+                <AiOutlineCheckCircle className="text-purple-500 text-4xl animate-checkscale" />
               </div>
             </div>
             <h2 className="text-xl font-normal text-white tracking-wider">

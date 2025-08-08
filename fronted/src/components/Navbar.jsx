@@ -1,4 +1,5 @@
 import React from "react";
+import { BiWallet } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -65,10 +66,11 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   return (
     <div className="p-4 text-white fixed top-0 z-50 flex justify-between items-center border-none outline-none w-full">
       <h2
-        className="md:text-2xl text-lg font-bold cursor-pointer hover:text-blue-400 md:ml-4 transition-colors duration-200"
+        className="md:text-2xl text-lg font-bold cursor-pointer hover:text-blue-400 md:ml-4 transition-colors duration-200 flex items-center gap-2"
         onClick={() => navigate("/")}
       >
-        My Todo App
+        <BiWallet className="text-white text-3xl" /> 
+        Expense Manager
       </h2>
       <div className="space-x-4">
         {isLoggedIn ? (

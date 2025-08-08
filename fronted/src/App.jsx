@@ -6,7 +6,7 @@ import Login from "./pages/Login";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { isTokenExpired } from "./utils/checkToken";
-import DashBoard from "./pages/DashBoard";
+import Home from "./pages/Home";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
@@ -30,7 +30,7 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={isLoggedIn ? <DashBoard /> : <Navigate to="/login" />}
+          element={isLoggedIn ? <Home /> : <Navigate to="/login" />}
         />
         <Route
           path="/login"

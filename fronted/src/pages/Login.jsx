@@ -4,6 +4,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { baseURL } from "../utils/constant";
 import { useNavigate, Link } from "react-router-dom"; // Added Link import
+import { HiOutlineUser } from "react-icons/hi";
+
 
 // Welcome Modal Component
 const WelcomeModal = ({ onClose }) => {
@@ -15,29 +17,27 @@ const WelcomeModal = ({ onClose }) => {
 
   return (
     <>
-      <style jsx>{`
-        @keyframes checkmark {
-          to {
-            stroke-dashoffset: 0;
-          }
-        }
-        @keyframes fadeInScale {
-          0% {
-            opacity: 0;
-            transform: scale(0.8);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-        .welcome-content {
-          animation: fadeInScale 0.6s ease-out 0.8s both;
-        }
-        .welcome-icon {
-          animation: fadeInScale 0.8s ease-out 0.2s both;
-        }
-      `}</style>
+      <style>{`
+  @keyframes fadeInScale {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  .welcome-content {
+    animation: fadeInScale 0.6s ease-out 0.8s both;
+  }
+  .welcome-icon {
+    animation: fadeInScale 0.8s ease-out 0.2s both;
+  }
+  .animate-welcomeIcon {
+    animation: fadeInScale 0.8s ease-out 0.3s both;
+  }
+`}</style>
 
       <div
         className={`fixed inset-0 flex items-center justify-center bg-gradient-to-br from-gray-800 via-gray-900 to-black transition-all duration-500 z-50 px-4 ${
@@ -55,19 +55,7 @@ const WelcomeModal = ({ onClose }) => {
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-12 text-white">
             <div className="relative mb-4">
               <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto border-3 border-white welcome-icon">
-                <svg
-                  className="w-8 h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
+                <HiOutlineUser className="text-purple-500 text-4xl animate-welcomeIcon" />
               </div>
             </div>
             <h2 className="text-xl font-normal text-white tracking-wider">
