@@ -6,7 +6,6 @@ import { baseURL } from "../utils/constant";
 import { useNavigate, Link } from "react-router-dom"; // Added Link import
 import { HiOutlineUser } from "react-icons/hi";
 
-
 // Welcome Modal Component
 const WelcomeModal = ({ onClose }) => {
   const [mounted, setMounted] = useState(false);
@@ -65,8 +64,9 @@ const WelcomeModal = ({ onClose }) => {
           <div className="px-8 py-8 relative z-10">
             <div className="welcome-content">
               <p className="text-gray-600 text-base leading-relaxed mb-8">
-                Welcome back! You're successfully logged in to your Todo App.
-                Let's get organized and productive!
+                Welcome back! You're successfully logged in to your Expense
+                Manager. Let's track your finances and achieve your financial
+                goals!
               </p>
             </div>
             <div className="welcome-content">
@@ -275,7 +275,7 @@ const Login = ({ setIsLoggedIn }) => {
                   )}
                 </button>
 
-                <p className="mt-6 text-sm text-center text-gray-600">
+                <p className="mt-6 text-md text-center text-gray-600">
                   Don't have an account?{" "}
                   <Link
                     to="/signup"

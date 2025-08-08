@@ -91,6 +91,11 @@ const Home = () => {
     setEditTxn(txn);
   };
 
+  // ✅ Cancel edit function - YEH MISSING THA!
+  const handleCancelEdit = () => {
+    setEditTxn(null); // This will make editTxn null, so cancel button will disappear
+  };
+
   // ✅ Update transaction
   const handleUpdateTransaction = async (updatedTxn) => {
     try {
@@ -144,12 +149,13 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 px-4 py-6">
+    <div className="min-h-screen  px-4 py-6">
       <Dashboard summary={summary} />
       <TransactionForm
         onAdd={handleAddTransaction}
         onUpdate={handleUpdateTransaction}
         editTxn={editTxn}
+        onCancelEdit={handleCancelEdit}
       />
       <TransactionList
         transactions={transactions}

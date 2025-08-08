@@ -26,6 +26,7 @@ function App() {
 
   return (
     <>
+    <div className="bg-gradient-to-br from-gray-800 via-gray-900 to-black transition-all duration-500">
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Routes>
         <Route
@@ -61,6 +62,7 @@ function App() {
           fontWeight: "bold",
         }}
       />
+      </div>
     </>
   );
 }
