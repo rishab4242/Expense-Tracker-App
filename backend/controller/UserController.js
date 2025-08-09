@@ -2,14 +2,18 @@ const User = require("../models/UserModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-
 // Signup
 exports.signup = async (req, res) => {
   const { email, password } = req.body;
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser)
-      return res.status(409).json({ message: "User already exists" });
+      return res
+        .status(409)
+        .json({
+          message:
+            "An account with this email already exists. Please log in to continue.",
+        });
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
