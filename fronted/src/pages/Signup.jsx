@@ -158,7 +158,7 @@ const Signup = () => {
       }
     } catch (err) {
       console.error(err);
-      setGeneralError("Signup failed. Please try again.");
+      setGeneralError(err.response.data.message);
     } finally {
       setSubmitting(false);
     }
