@@ -9,7 +9,7 @@ const Home = () => {
   const [summary, setSummary] = useState({ income: 0, expense: 0 });
   const [editTxn, setEditTxn] = useState(null);
 
-  // ✅ Calculate summary locally
+  // ✅ Common function to calculate summary from full list
   const calculateSummary = (txns) => {
     const income = txns
       .filter((txn) => txn.type === "income")
@@ -29,7 +29,7 @@ const Home = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTransactions(res.data);
-      calculateSummary(res.data); // ✅ summary update
+      calculateSummary(res.data);
     } catch (err) {
       console.error("Error fetching transactions:", err.message);
     }
@@ -43,20 +43,15 @@ const Home = () => {
   const handleAddTransaction = async (newTxn) => {
     try {
       const token = localStorage.getItem("token");
-
       const res = await axios.post("/api/transactions", newTxn, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setTransactions((prev) => [res.data, ...prev]);
-
-      // ✅ summary update manually
-      const amt = Number(res.data.amount);
-      if (res.data.type === "income") {
-        setSummary((prev) => ({ ...prev, income: prev.income + amt }));
-      } else {
-        setSummary((prev) => ({ ...prev, expense: prev.expense + amt }));
-      }
+      setTransactions((prev) => {
+        const newList = [res.data, ...prev];
+        calculateSummary(newList);
+        return newList;
+      });
     } catch (err) {
       console.error("Error adding transaction:", err.message);
     }
@@ -66,41 +61,28 @@ const Home = () => {
   const handleDeleteTransaction = async (id) => {
     try {
       const token = localStorage.getItem("token");
-      const deletedTxn = transactions.find((txn) => txn._id === id); // 👈 Get before deletion
-
       await axios.delete(`/api/transactions/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setTransactions((prev) => prev.filter((txn) => txn._id !== id));
-
-      // ✅ summary update manually
-      const amt = Number(deletedTxn.amount);
-      if (deletedTxn.type === "income") {
-        setSummary((prev) => ({ ...prev, income: prev.income - amt }));
-      } else {
-        setSummary((prev) => ({ ...prev, expense: prev.expense - amt }));
-      }
+      setTransactions((prev) => {
+        const newList = prev.filter((txn) => txn._id !== id);
+        calculateSummary(newList);
+        return newList;
+      });
     } catch (err) {
       console.error("Error deleting transaction:", err.message);
     }
   };
 
-  // ✅ Set transaction for editing
-  const handleEditTransaction = (txn) => {
-    setEditTxn(txn);
-  };
-
-  // ✅ Cancel edit function - YEH MISSING THA!
-  const handleCancelEdit = () => {
-    setEditTxn(null); // This will make editTxn null, so cancel button will disappear
-  };
+  // ✅ Edit helpers
+  const handleEditTransaction = (txn) => setEditTxn(txn);
+  const handleCancelEdit = () => setEditTxn(null);
 
   // ✅ Update transaction
   const handleUpdateTransaction = async (updatedTxn) => {
     try {
       const token = localStorage.getItem("token");
-
       const res = await axios.put(
         `/api/transactions/${updatedTxn._id}`,
         updatedTxn,
@@ -109,37 +91,12 @@ const Home = () => {
         }
       );
 
-      const updatedData = res.data;
-
       setTransactions((prev) => {
-        const prevTxn = prev.find((txn) => txn._id === updatedTxn._id);
-
-        const oldAmt = Number(prevTxn.amount);
-        const newAmt = Number(updatedData.amount);
-
-        let newIncome = summary.income;
-        let newExpense = summary.expense;
-
-        // ✅ Remove old txn from summary
-        if (prevTxn.type === "income") {
-          newIncome -= oldAmt;
-        } else {
-          newExpense -= oldAmt;
-        }
-
-        // ✅ Add updated txn to summary
-        if (updatedData.type === "income") {
-          newIncome += newAmt;
-        } else {
-          newExpense += newAmt;
-        }
-
-        setSummary({ income: newIncome, expense: newExpense });
-
-        // ✅ Update list
-        return prev.map((txn) =>
-          txn._id === updatedTxn._id ? updatedData : txn
+        const newList = prev.map((txn) =>
+          txn._id === updatedTxn._id ? res.data : txn
         );
+        calculateSummary(newList);
+        return newList;
       });
 
       setEditTxn(null);
@@ -149,7 +106,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen  px-4 py-6">
+    <div className="min-h-screen px-4 py-6">
       <Dashboard summary={summary} />
       <TransactionForm
         onAdd={handleAddTransaction}
