@@ -42,7 +42,7 @@ exports.deleteTransaction = async (req, res) => {
   try {
     const txn = await Transaction.findOneAndDelete({
       _id: req.params.id,
-      userId: req.user.userId,
+      userId: req.user.userId, 
     });
 
     if (!txn) {
